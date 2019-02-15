@@ -163,8 +163,7 @@ def get_commit(repo, commit_id):
     commit = repo.commit(commit_id)
     return commit
 
-def find_bugid(repo, commit_id):
-    commit = get_commit(repo, commit_id)
+def find_bugid(commit):
     summary_line = commit.summary
     regex = re.compile(bug_regex)
     m = regex.findall(summary_line)
@@ -216,9 +215,9 @@ def main(argv):
 
     target_version = find_target_version(repo, branch)
 
-    bug_ids = find_bugid(repo, commit_id)
-    
     commit = get_commit(repo, commit_id)
+    
+    bug_ids = find_bugid(commit)
 
     if target_version is None:
         print("missing target version")
